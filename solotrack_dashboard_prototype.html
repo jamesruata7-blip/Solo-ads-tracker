@@ -1,78 +1,325 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101827">
-<title>SoloTrack — SaaS Dashboard</title>
+<title>SoloAdsTracker - SaaS Dashboard</title>
 <style>
-:root{--bg:#0b1220;--panel:#121d2e;--panel2:#172438;--line:#26364c;--text:#eef4ff;--muted:#91a2ba;--accent:#62d6b4;--blue:#7aa7ff;--orange:#ffbf69}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
-header{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid var(--line);background:#0e1828;position:sticky;top:0;z-index:2}
-.brand{font-size:20px;font-weight:800;letter-spacing:.3px}.brand span{color:var(--accent)}
-.pill{font-size:11px;color:var(--accent);border:1px solid #286653;padding:5px 9px;border-radius:20px;margin-left:8px}
-main{max-width:1120px;margin:auto;padding:22px 16px 50px}
-.top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
-h1{font-size:25px;margin:0 0 7px}.sub{color:var(--muted);font-size:13px}
-button{border:0;border-radius:9px;padding:11px 15px;background:var(--accent);color:#082017;font-weight:700;cursor:pointer}
-button.secondary{background:#22334a;color:var(--text);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.card,.section{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
-.metric-label{color:var(--muted);font-size:12px}.metric{font-size:27px;font-weight:800;margin:10px 0 5px}.trend{color:var(--accent);font-size:12px}
-.layout{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;margin-top:15px}
-.section h2{font-size:16px;margin:0 0 15px}
-.barrow{display:grid;grid-template-columns:95px 1fr 38px;align-items:center;gap:9px;margin:15px 0;font-size:12px;color:var(--muted)}
-.track{height:9px;background:#26364c;border-radius:20px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:20px}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}
-.status{color:var(--accent);font-size:11px;background:#16372f;padding:5px 8px;border-radius:20px}
-.empty-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
-.quick button{font-size:12px;padding:9px 12px}
-#campaignForm{display:none;margin-top:14px;padding:14px;background:var(--panel2);border:1px solid var(--line);border-radius:10px}
-input{width:100%;padding:11px;border-radius:8px;border:1px solid var(--line);background:#0d1726;color:var(--text);margin:7px 0 12px}
-label{font-size:12px;color:var(--muted)}
-.notice{border:1px solid #66502d;background:#302719;color:#f5d7a5;padding:12px;border-radius:10px;font-size:12px;line-height:1.5;margin-top:15px}
-footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.metric{font-size:23px}table{font-size:11px}th,td{padding:10px 5px}}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#e8eef8;font-family:Arial,sans-serif}
+header{padding:20px;background:#101c30;border-bottom:1px solid #24364d}
+.logo{font-size:23px;font-weight:bold;color:#22d3b0}
+header p{color:#9aabc1;font-size:13px;margin:7px 0 0}
+nav{display:flex;gap:9px;flex-wrap:wrap;padding:15px}
+button{background:#17263a;color:#dce8f5;border:1px solid #29435a;padding:11px 14px;border-radius:8px;cursor:pointer}
+button.active,button.primary{background:#0e9f8a;color:white;border:0}
+main{padding:15px;max-width:1100px;margin:auto}
+h2{font-size:20px}
+.muted{color:#91a2b8;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:18px 0}
+.card{background:#132238;border:1px solid #263b53;padding:17px;border-radius:12px}
+.card small{color:#9aabc1}
+.number{font-size:27px;font-weight:bold;margin-top:12px;color:#29d8b6}
+.panel{background:#132238;border:1px solid #263b53;border-radius:12px;padding:17px;margin:15px 0}
+input,select{width:100%;padding:12px;background:#0b1729;border:1px solid #304761;border-radius:8px;color:white;margin:7px 0 13px}
+label{font-size:13px;color:#b7c7d9}
+button.full{width:100%;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:left;padding:12px 8px;border-bottom:1px solid #293d54}
+th{color:#28d8b6}
+.tablewrap{overflow-x:auto}
+.section{display:none}
+.section.show{display:block}
+.bar{height:12px;background:#253a50;border-radius:10px;overflow:hidden;margin-top:10px}
+.bar span{display:block;height:100%;background:#20c9a8}
+footer{text-align:center;padding:25px;color:#71849b;font-size:12px}
 </style>
 </head>
 <body>
-<header><div class="brand">Solo<span>Track</span><span class="pill">SAAS CONCEPT</span></div><button class="secondary" onclick="alert('Account login will be added when we connect the secure backend.')">Sign in</button></header>
+
+<header>
+<div class="logo">◈ SoloAdsTracker</div>
+<p>Track Traffic. Grow Leads. Measure Results.</p>
+</header>
+
+<nav>
+<button class="active" onclick="show('dashboard',this)">Dashboard</button>
+<button onclick="show('campaigns',this)">Campaigns</button>
+<button onclick="show('tracking',this)">Track Activity</button>
+<button onclick="show('analytics',this)">Analytics</button>
+</nav>
+
 <main>
- <div class="top"><div><h1>Campaign overview</h1><div class="sub">A simple command centre for your solo ad campaigns.</div></div><button onclick="toggleForm()">+ New campaign</button></div>
- <div class="grid">
-  <div class="card"><div class="metric-label">Total visitors</div><div class="metric" id="visitors">2,480</div><div class="trend">Demo data</div></div>
-  <div class="card"><div class="metric-label">Link clicks</div><div class="metric" id="clicks">1,860</div><div class="trend">Demo data</div></div>
-  <div class="card"><div class="metric-label">Email leads</div><div class="metric" id="leads">496</div><div class="trend">Demo data</div></div>
-  <div class="card"><div class="metric-label">Opt-in rate</div><div class="metric" id="rate">20.0%</div><div class="trend">Leads ÷ visitors</div></div>
- </div>
- <div class="quick"><button class="secondary" onclick="showInfo('Tracking links will be generated after the tracking backend is connected.')">Create tracking link</button><button class="secondary" onclick="showInfo('Vendor comparisons will use verified campaign click and lead data.')">Compare vendors</button><button class="secondary" onclick="showInfo('Reports will be downloadable in a later version.')">View reports</button></div>
- <div class="layout">
-  <section class="section"><h2>Campaign performance</h2>
-   <div class="barrow"><span>Vendor Alpha</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82%</b></div>
-   <div class="barrow"><span>Vendor Bravo</span><div class="track"><div class="fill" style="width:61%"></div></div><b>61%</b></div>
-   <div class="barrow"><span>Vendor Charlie</span><div class="track"><div class="fill" style="width:44%"></div></div><b>44%</b></div>
-   <p class="empty-note">Illustrative comparison only. Real vendor performance will appear after tracking is connected.</p>
-  </section>
-  <section class="section"><h2>Conversion snapshot</h2>
-   <div class="barrow"><span>Visitors</span><div class="track"><div class="fill" style="width:100%"></div></div><b>100%</b></div>
-   <div class="barrow"><span>Clicks</span><div class="track"><div class="fill" style="width:75%"></div></div><b>75%</b></div>
-   <div class="barrow"><span>Leads</span><div class="track"><div class="fill" style="width:20%"></div></div><b>20%</b></div>
-   <p class="empty-note">Example funnel: 2,480 visitors → 1,860 clicks → 496 leads.</p>
-  </section>
- </div>
- <section class="section" style="margin-top:15px"><h2>Your campaigns</h2>
-  <div style="overflow-x:auto"><table><thead><tr><th>Campaign</th><th>Traffic source</th><th>Visitors</th><th>Leads</th><th>Status</th></tr></thead>
-  <tbody id="campaignRows"><tr><td>Starter funnel test</td><td>Vendor Alpha</td><td>1,200</td><td>260</td><td><span class="status">Demo</span></td></tr><tr><td>Lead magnet test</td><td>Vendor Bravo</td><td>780</td><td>150</td><td><span class="status">Demo</span></td></tr><tr><td>Newsletter signup</td><td>Vendor Charlie</td><td>500</td><td>86</td><td><span class="status">Demo</span></td></tr></tbody></table></div>
-  <div id="campaignForm"><label for="campaignName">Campaign name</label><input id="campaignName" placeholder="e.g. Beginner funnel test"><label for="vendorName">Traffic vendor / source</label><input id="vendorName" placeholder="e.g. Vendor name"><button onclick="addCampaign()">Save demo campaign</button> <button class="secondary" onclick="toggleForm()">Cancel</button></div>
- </section>
- <div class="notice"><b>Prototype notice:</b> This is the first visual demo. The numbers are sample data; it does not yet track real visitors, store customer accounts, or process payments. We'll add a secure backend before inviting customers or handling personal data.</div>
- <footer>SoloTrack • Early concept • Built for learning and testing</footer>
+
+<section id="dashboard" class="section show">
+<h2>Welcome to your dashboard 👋</h2>
+<p class="muted">Your marketing performance overview</p>
+
+<div class="grid">
+<div class="card"><small>Total Visitors</small><div class="number" id="visitors">0</div></div>
+<div class="card"><small>Total Clicks</small><div class="number" id="clicks">0</div></div>
+<div class="card"><small>Total Leads</small><div class="number" id="leads">0</div></div>
+<div class="card"><small>Conversions</small><div class="number" id="conversions">0</div></div>
+<div class="card"><small>Conversion Rate</small><div class="number" id="rate">0%</div></div>
+</div>
+
+<div class="panel">
+<h3>Quick Actions</h3>
+<button class="primary" onclick="show('campaigns')">+ Add Campaign</button>
+<button onclick="show('tracking')">+ Record Activity</button>
+</div>
+
+<div class="panel">
+<h3>Traffic Overview</h3>
+<div class="muted">Visitors compared with clicks</div>
+<div class="bar"><span id="trafficbar" style="width:0%"></span></div>
+<p class="muted" id="traffictext">No activity recorded yet.</p>
+</div>
+</section>
+
+<section id="campaigns" class="section">
+<h2>Campaign Manager</h2>
+<p class="muted">Create and manage your advertising campaigns.</p>
+
+<div class="panel">
+<label>Campaign Name</label>
+<input id="campaignName" placeholder="Example: Facebook Solo Ads">
+
+<label>Traffic Source</label>
+<select id="source">
+<option>TikTok</option>
+<option>Facebook</option>
+<option>Instagram</option>
+<option>Pinterest</option>
+<option>Solo Ads</option>
+<option>Google Ads</option>
+<option>Other</option>
+</select>
+
+<label>Campaign Link</label>
+<input id="campaignLink" placeholder="https://example.com">
+
+<button class="primary full" onclick="addCampaign()">Create Campaign</button>
+</div>
+
+<div class="panel">
+<h3>Your Campaigns</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Name</th><th>Source</th><th>Action</th></tr></thead>
+<tbody id="campaignList"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="tracking" class="section">
+<h2>Track Activity</h2>
+<p class="muted">Manually record your marketing results.</p>
+
+<div class="panel">
+<label>Activity Type</label>
+<select id="activityType">
+<option value="visitor">Visitor</option>
+<option value="click">Click</option>
+<option value="lead">Lead / Subscriber</option>
+<option value="conversion">Conversion / Sale</option>
+</select>
+
+<label>Campaign</label>
+<select id="activityCampaign"></select>
+
+<label>Quantity</label>
+<input type="number" id="quantity" min="1" value="1">
+
+<button class="primary full" onclick="recordActivity()">Save Activity</button>
+</div>
+
+<div class="panel">
+<h3>Activity History</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Date</th><th>Campaign</th><th>Activity</th><th>Qty</th></tr></thead>
+<tbody id="activityList"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="analytics" class="section">
+<h2>Marketing Analytics</h2>
+<div class="grid">
+<div class="card"><small>Visitor to Lead</small><div class="number" id="leadRate">0%</div></div>
+<div class="card"><small>Click to Lead</small><div class="number" id="clickRate">0%</div></div>
+<div class="card"><small>Sales per Lead</small><div class="number" id="saleRate">0%</div></div>
+</div>
+
+<div class="panel">
+<h3>Performance Summary</h3>
+<p id="summary" class="muted">Record activity to see your marketing results.</p>
+</div>
+
+<div class="panel">
+<h3>Data Management</h3>
+<button onclick="exportData()">Export Data (JSON)</button>
+<button onclick="resetData()" style="color:#ff8d8d">Reset All Data</button>
+</div>
+</section>
+
 </main>
+
+<footer>SoloAdsTracker © 2026 | Your Marketing Control Center</footer>
+
 <script>
-function toggleForm(){const f=document.getElementById('campaignForm');f.style.display=f.style.display==='block'?'none':'block'}
-function addCampaign(){const n=document.getElementById('campaignName').value.trim(),v=document.getElementById('vendorName').value.trim();if(!n||!v){alert('Please enter both a campaign name and traffic source.');return}const tr=document.createElement('tr');[n,v,'—','—','Demo'].forEach((val,i)=>{const td=document.createElement('td');if(i===4){const s=document.createElement('span');s.className='status';s.textContent=val;td.appendChild(s)}else td.textContent=val;tr.appendChild(td)});document.getElementById('campaignRows').appendChild(tr);document.getElementById('campaignName').value='';document.getElementById('vendorName').value='';toggleForm()}
-function showInfo(message){alert(message)}
+const KEY="soloadstracker_v2";
+
+let data;
+try{
+ data=JSON.parse(localStorage.getItem(KEY))||{
+ campaigns:[],activities:[]
+ };
+}catch(e){
+ data={campaigns:[],activities:[]};
+}
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(data));
+ render();
+}
+
+function show(id,btn){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("show"));
+ document.getElementById(id).classList.add("show");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ render();
+}
+
+function addCampaign(){
+ const name=document.getElementById("campaignName").value.trim();
+ const source=document.getElementById("source").value;
+ const link=document.getElementById("campaignLink").value.trim();
+
+ if(!name){alert("Enter a campaign name.");return;}
+
+ if(link){
+  try{
+   const url=new URL(link);
+   if(!["http:","https:"].includes(url.protocol))throw Error();
+  }catch(e){alert("Enter a valid http or https campaign link.");return;}
+ }
+
+ data.campaigns.push({
+  id:Date.now(),
+  name,source,link
+ });
+
+ document.getElementById("campaignName").value="";
+ document.getElementById("campaignLink").value="";
+ save();
+ alert("Campaign created!");
+}
+
+function recordActivity(){
+ const type=document.getElementById("activityType").value;
+ const campaign=document.getElementById("activityCampaign").value;
+ const qty=Number(document.getElementById("quantity").value);
+
+ if(!campaign){alert("Create a campaign first.");return;}
+ if(!Number.isInteger(qty)||qty<1){alert("Enter a valid quantity.");return;}
+
+ data.activities.push({
+  id:Date.now(),
+  type,campaign,
+  qty,
+  date:new Date().toLocaleString()
+ });
+
+ document.getElementById("quantity").value=1;
+ save();
+ alert("Activity saved!");
+}
+
+function totals(){
+ const t={visitor:0,click:0,lead:0,conversion:0};
+ data.activities.forEach(a=>{
+  if(t[a.type]!==undefined)t[a.type]+=a.qty;
+ });
+ return t;
+}
+
+function percent(a,b){
+ return b?((a/b)*100).toFixed(1)+"%":"0%";
+}
+
+function render(){
+ const t=totals();
+
+ document.getElementById("visitors").textContent=t.visitor;
+ document.getElementById("clicks").textContent=t.click;
+ document.getElementById("leads").textContent=t.lead;
+ document.getElementById("conversions").textContent=t.conversion;
+ document.getElementById("rate").textContent=percent(t.conversion,t.visitor);
+
+ document.getElementById("leadRate").textContent=percent(t.lead,t.visitor);
+ document.getElementById("clickRate").textContent=percent(t.lead,t.click);
+ document.getElementById("saleRate").textContent=percent(t.conversion,t.lead);
+
+ document.getElementById("trafficbar").style.width=
+ Math.min(100,t.visitor?100*t.click/t.visitor:0)+"%";
+
+ document.getElementById("traffictext").textContent=
+ t.visitor?t.click+" clicks from "+t.visitor+" recorded visitors":"No activity recorded yet.";
+
+ document.getElementById("campaignList").innerHTML=data.campaigns.map(c=>
+ `<tr><td>${escapeHTML(c.name)}</td><td>${escapeHTML(c.source)}</td><td><button onclick="deleteCampaign(${c.id})">Delete</button></td></tr>`
+ ).join("")||'<tr><td colspan="3">No campaigns yet.</td></tr>';
+
+ document.getElementById("activityCampaign").innerHTML=
+ '<option value="">Select campaign</option>'+
+ data.campaigns.map(c=>`<option value="${c.id}">${escapeHTML(c.name)}</option>`).join("");
+
+ document.getElementById("activityList").innerHTML=
+ [...data.activities].reverse().map(a=>{
+ const c=data.campaigns.find(x=>x.id===a.campaign);
+ return `<tr><td>${escapeHTML(a.date)}</td><td>${escapeHTML(c?c.name:"Deleted campaign")}</td><td>${escapeHTML(a.type)}</td><td>${a.qty}</td></tr>`;
+ }).join("")||'<tr><td colspan="4">No activity recorded yet.</td></tr>';
+
+ document.getElementById("summary").textContent=
+ `You have recorded ${t.visitor} visitors, ${t.click} clicks, ${t.lead} leads and ${t.conversion} conversions.`;
+}
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function deleteCampaign(id){
+ if(!confirm("Delete this campaign?"))return;
+ data.campaigns=data.campaigns.filter(c=>c.id!==id);
+ save();
+}
+
+function exportData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="soloadstracker-data.json";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function resetData(){
+ if(!confirm("Delete all campaigns and activity? This cannot be undone."))return;
+ data={campaigns:[],activities:[]};
+ save();
+}
+
+render();
 </script>
 </body>
 </html>
