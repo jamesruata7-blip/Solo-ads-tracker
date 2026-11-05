@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>SoloTrack — SaaS Dashboard</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d2e;--panel2:#172438;--line:#26364c;--text:#eef4ff;--muted:#91a2ba;--accent:#62d6b4;--blue:#7aa7ff;--orange:#ffbf69}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid var(--line);background:#0e1828;position:sticky;top:0;z-index:2}
+.brand{font-size:20px;font-weight:800;letter-spacing:.3px}.brand span{color:var(--accent)}
+.pill{font-size:11px;color:var(--accent);border:1px solid #286653;padding:5px 9px;border-radius:20px;margin-left:8px}
+main{max-width:1120px;margin:auto;padding:22px 16px 50px}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+h1{font-size:25px;margin:0 0 7px}.sub{color:var(--muted);font-size:13px}
+button{border:0;border-radius:9px;padding:11px 15px;background:var(--accent);color:#082017;font-weight:700;cursor:pointer}
+button.secondary{background:#22334a;color:var(--text);border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card,.section{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.metric-label{color:var(--muted);font-size:12px}.metric{font-size:27px;font-weight:800;margin:10px 0 5px}.trend{color:var(--accent);font-size:12px}
+.layout{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;margin-top:15px}
+.section h2{font-size:16px;margin:0 0 15px}
+.barrow{display:grid;grid-template-columns:95px 1fr 38px;align-items:center;gap:9px;margin:15px 0;font-size:12px;color:var(--muted)}
+.track{height:9px;background:#26364c;border-radius:20px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}
+.status{color:var(--accent);font-size:11px;background:#16372f;padding:5px 8px;border-radius:20px}
+.empty-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.quick button{font-size:12px;padding:9px 12px}
+#campaignForm{display:none;margin-top:14px;padding:14px;background:var(--panel2);border:1px solid var(--line);border-radius:10px}
+input{width:100%;padding:11px;border-radius:8px;border:1px solid var(--line);background:#0d1726;color:var(--text);margin:7px 0 12px}
+label{font-size:12px;color:var(--muted)}
+.notice{border:1px solid #66502d;background:#302719;color:#f5d7a5;padding:12px;border-radius:10px;font-size:12px;line-height:1.5;margin-top:15px}
+footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.metric{font-size:23px}table{font-size:11px}th,td{padding:10px 5px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Solo<span>Track</span><span class="pill">SAAS CONCEPT</span></div><button class="secondary" onclick="alert('Account login will be added when we connect the secure backend.')">Sign in</button></header>
+<main>
+ <div class="top"><div><h1>Campaign overview</h1><div class="sub">A simple command centre for your solo ad campaigns.</div></div><button onclick="toggleForm()">+ New campaign</button></div>
+ <div class="grid">
+  <div class="card"><div class="metric-label">Total visitors</div><div class="metric" id="visitors">2,480</div><div class="trend">Demo data</div></div>
+  <div class="card"><div class="metric-label">Link clicks</div><div class="metric" id="clicks">1,860</div><div class="trend">Demo data</div></div>
+  <div class="card"><div class="metric-label">Email leads</div><div class="metric" id="leads">496</div><div class="trend">Demo data</div></div>
+  <div class="card"><div class="metric-label">Opt-in rate</div><div class="metric" id="rate">20.0%</div><div class="trend">Leads ÷ visitors</div></div>
+ </div>
+ <div class="quick"><button class="secondary" onclick="showInfo('Tracking links will be generated after the tracking backend is connected.')">Create tracking link</button><button class="secondary" onclick="showInfo('Vendor comparisons will use verified campaign click and lead data.')">Compare vendors</button><button class="secondary" onclick="showInfo('Reports will be downloadable in a later version.')">View reports</button></div>
+ <div class="layout">
+  <section class="section"><h2>Campaign performance</h2>
+   <div class="barrow"><span>Vendor Alpha</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82%</b></div>
+   <div class="barrow"><span>Vendor Bravo</span><div class="track"><div class="fill" style="width:61%"></div></div><b>61%</b></div>
+   <div class="barrow"><span>Vendor Charlie</span><div class="track"><div class="fill" style="width:44%"></div></div><b>44%</b></div>
+   <p class="empty-note">Illustrative comparison only. Real vendor performance will appear after tracking is connected.</p>
+  </section>
+  <section class="section"><h2>Conversion snapshot</h2>
+   <div class="barrow"><span>Visitors</span><div class="track"><div class="fill" style="width:100%"></div></div><b>100%</b></div>
+   <div class="barrow"><span>Clicks</span><div class="track"><div class="fill" style="width:75%"></div></div><b>75%</b></div>
+   <div class="barrow"><span>Leads</span><div class="track"><div class="fill" style="width:20%"></div></div><b>20%</b></div>
+   <p class="empty-note">Example funnel: 2,480 visitors → 1,860 clicks → 496 leads.</p>
+  </section>
+ </div>
+ <section class="section" style="margin-top:15px"><h2>Your campaigns</h2>
+  <div style="overflow-x:auto"><table><thead><tr><th>Campaign</th><th>Traffic source</th><th>Visitors</th><th>Leads</th><th>Status</th></tr></thead>
+  <tbody id="campaignRows"><tr><td>Starter funnel test</td><td>Vendor Alpha</td><td>1,200</td><td>260</td><td><span class="status">Demo</span></td></tr><tr><td>Lead magnet test</td><td>Vendor Bravo</td><td>780</td><td>150</td><td><span class="status">Demo</span></td></tr><tr><td>Newsletter signup</td><td>Vendor Charlie</td><td>500</td><td>86</td><td><span class="status">Demo</span></td></tr></tbody></table></div>
+  <div id="campaignForm"><label for="campaignName">Campaign name</label><input id="campaignName" placeholder="e.g. Beginner funnel test"><label for="vendorName">Traffic vendor / source</label><input id="vendorName" placeholder="e.g. Vendor name"><button onclick="addCampaign()">Save demo campaign</button> <button class="secondary" onclick="toggleForm()">Cancel</button></div>
+ </section>
+ <div class="notice"><b>Prototype notice:</b> This is the first visual demo. The numbers are sample data; it does not yet track real visitors, store customer accounts, or process payments. We'll add a secure backend before inviting customers or handling personal data.</div>
+ <footer>SoloTrack • Early concept • Built for learning and testing</footer>
+</main>
+<script>
+function toggleForm(){const f=document.getElementById('campaignForm');f.style.display=f.style.display==='block'?'none':'block'}
+function addCampaign(){const n=document.getElementById('campaignName').value.trim(),v=document.getElementById('vendorName').value.trim();if(!n||!v){alert('Please enter both a campaign name and traffic source.');return}const tr=document.createElement('tr');[n,v,'—','—','Demo'].forEach((val,i)=>{const td=document.createElement('td');if(i===4){const s=document.createElement('span');s.className='status';s.textContent=val;td.appendChild(s)}else td.textContent=val;tr.appendChild(td)});document.getElementById('campaignRows').appendChild(tr);document.getElementById('campaignName').value='';document.getElementById('vendorName').value='';toggleForm()}
+function showInfo(message){alert(message)}
+</script>
+</body>
+</html>
