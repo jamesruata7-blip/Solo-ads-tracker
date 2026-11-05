@@ -1,1 +1,1 @@
-# Solo-ads-tracker
+index.html
